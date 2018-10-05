@@ -3,27 +3,31 @@
 endif
 let g:loaded_vim_simple_files = 1
 
-augroup vim_simple_files
+let g:vsf_file = get(g:, 'vsf_file', ".vim-files")
+let g:vsf_command = get(g:, 'vsf_command', "git ls-files")
+
+augroup vsf
     autocmd!
-    autocmd BufRead .vim-files :call SimpleFilesBuffer()
+    exec "autocmd BufRead " g:vsf_file . " :call s:SimpleFilesBuffer()"
     autocmd BufReadPost * silent! normal! g`"
     if !len(argv())
         set viminfo+=n.vim-viminfo-local
-        autocmd vimrc VimEnter * nested silent! e #<1
+        autocmd VimEnter * nested silent! e #<1
     endif
 augroup END
 
-func! SimpleFilesBuffer()
-    map <buffer> <silent> <CR> :call SimpleFilesHistoryEdit()<CR>
+func! s:SimpleFilesBuffer()
+    map <buffer> <silent> <CR> :call <SID>SimpleFilesEdit()<CR>
     setl buftype=nofile
+    setl nobuflisted
 endfunc
 
 func! SimpleFiles()
-    call system("git ls-files > .vim-files")
+    call system(g:vsf_command . " > " . g:vsf_file)
     e .vim-files
 endfunc
 
-func! SimpleFilesHistoryEdit()
+func! s:SimpleFilesEdit()
     let command = "e " . getline('.')
     exec command
     call histadd("cmd", command)
