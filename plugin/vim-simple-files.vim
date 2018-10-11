@@ -8,7 +8,6 @@ let g:vsf_command = get(g:, 'vsf_command', "git ls-files --others --exclude-stan
 
 augroup vsf
     autocmd!
-    exec "autocmd BufRead " g:vsf_file . " :call s:SimpleFilesBuffer()"
     autocmd BufReadPost * silent! normal! g`"
     if !len(argv())
         set viminfo+=n.vim-viminfo-local
@@ -16,19 +15,37 @@ augroup vsf
     endif
 augroup END
 
-func! s:SimpleFilesBuffer()
-    map <buffer> <silent> <CR> :call <SID>SimpleFilesEdit()<CR>
-    setl buftype=nofile
-    setl nobuflisted
-endfunc
-
 func! SimpleFiles()
     call system(g:vsf_command . " > " . g:vsf_file)
     e .vim-files
+
+    setl buftype=nowrite nobuflisted bufhidden=hide noswapfile
+    map <buffer> <silent> <CR> gf
 endfunc
 
-func! s:SimpleFilesEdit()
-    let command = "e " . getline('.')
-    exec command
-    call histadd("cmd", command)
+fun! SimpleMru()
+    enew
+
+    setl buftype=nowrite bufhidden=delete noswapfile
+    map <buffer> <silent> <CR> gf
+
+    wviminfo
+    rviminfo!
+
+    let files = []
+
+    for oldfile in v:oldfiles
+        let rel_file = fnamemodify(oldfile, ":.")
+
+        if rel_file[0] == "/"
+            continue
+        endif
+
+        call add(files, rel_file)
+    endfor
+
+    let output = join(files, "\n")
+    put! = output
+
+    :1
 endfunc
