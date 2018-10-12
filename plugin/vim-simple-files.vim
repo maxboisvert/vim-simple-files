@@ -17,35 +17,26 @@ augroup END
 
 func! SimpleFiles()
     call system(g:vsf_command . " > " . g:vsf_file)
-    e .vim-files
-
+    exec "e " . g:vsf_file
     setl buftype=nowrite nobuflisted bufhidden=hide noswapfile
     map <buffer> <silent> <CR> gf
 endfunc
 
 fun! SimpleMru()
     enew
-
     setl buftype=nowrite bufhidden=delete noswapfile
     map <buffer> <silent> <CR> gf
-
-    wviminfo
-    rviminfo!
-
-    let files = []
+    wviminfo | rviminfo!
 
     for oldfile in v:oldfiles
         let rel_file = fnamemodify(oldfile, ":.")
 
-        if rel_file[0] == "/"
+        if rel_file[0] == "/" || rel_file[0] == "."
             continue
         endif
 
-        call add(files, rel_file)
+        call append(line("$") - 1, rel_file)
     endfor
-
-    let output = join(files, "\n")
-    put! = output
 
     :1
 endfunc
