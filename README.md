@@ -1,18 +1,18 @@
 # Vim Simple Files
 
-This is a simple file chooser.
+This is a simple file chooser and mru.
 
 ## Usage
 
-```
-nnoremap <silent> <Leader>f :call SimpleFiles()<CR>
-```
-
 Use `:call SimpleFiles()` to lists available files.
 
-Press enter to go to the file.
+Add mapping for faster ops:
+```
+nnoremap <silent> <Leader>f :call SimpleFiles()<CR>
+nnoremap <silent> <Leader>j :call SimpleMru()<CR>
+```
 
-The edited file is added to the history command, you can press `:e<Up>` to use this as a MRU.
+Once the line is selected, press enter to go to the file.
 
 ## License
 
