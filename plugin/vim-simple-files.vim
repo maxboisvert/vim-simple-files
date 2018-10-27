@@ -30,7 +30,7 @@ fun! SimpleMru()
     let cur_file = expand("%:.")
 
     enew
-    setl buftype=nowrite bufhidden=delete noswapfile
+    setl buftype=nowrite nobuflisted bufhidden=delete noswapfile
     map <buffer> <silent> <CR> gf
     wviminfo | rviminfo!
 
