@@ -2,11 +2,20 @@
 
 This is a simple file chooser and mru.
 
+## Installation
+
+With `vim-plug`:
+```
+Plug 'maxboisvert/vim-simple-files'
+```
+
+Or use your prefered way.
+
 ## Usage
 
 Use `:call SimpleFiles()` to lists available files.
 
-Add mapping for faster ops:
+Add mapping for faster operations:
 ```
 nnoremap <silent> <Leader>f :call SimpleFiles()<CR>
 nnoremap <silent> <Leader>j :call SimpleMru()<CR>
