@@ -22,12 +22,13 @@ func! SimpleFiles()
 endfunc
 
 func! s:BufferSettings()
-    setl buftype=nowrite nobuflisted bufhidden=hide noswapfile
+    setl buftype=nowrite nobuflisted bufhidden=hide noswapfile nomodifiable
     map <buffer> <silent> <CR> gf
 endfunc
 
 fun! SimpleMru()
     let cur_file = expand("%:.")
+    let skip_first_file = 0
 
     enew
     setl buftype=nowrite nobuflisted bufhidden=delete noswapfile
@@ -37,12 +38,20 @@ fun! SimpleMru()
     for oldfile in v:oldfiles
         let rel_file = fnamemodify(oldfile, ":.")
 
-        if rel_file[0] == "/" || rel_file[0] == "." || rel_file == cur_file
+        if rel_file[0] == "/" || rel_file[0] == "."
             continue
+        endif
+
+        if line("$") == 1 && rel_file == cur_file
+            let skip_first_file = 1
         endif
 
         call append(line("$") - 1, rel_file)
     endfor
 
-    :1
+    if skip_first_file
+        :2
+    else
+        :1
+    endif
 endfunc
