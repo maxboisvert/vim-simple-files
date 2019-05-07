@@ -1,6 +1,6 @@
 # Vim Simple Files
 
-This is a simple file chooser and mru.
+This is a simple file navigator and mru. Less than 100 lines of code.
 
 ## Installation
 
@@ -15,7 +15,9 @@ Or use your prefered way.
 
 Use `:call SimpleFiles()` to lists available files.
 
-Add mapping for faster operations:
+Use `:call SimpleMru()` to lists recent files.
+
+Add mapping for faster operations. Examples:
 ```
 nnoremap <silent> <Leader>f :call SimpleFiles()<CR>
 nnoremap <silent> <Leader>j :call SimpleMru()<CR>
