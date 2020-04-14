@@ -3,7 +3,7 @@
 endif
 let g:loaded_vim_simple_files = 1
 
-let g:vsf_file = get(g:, 'vsf_file', ".vim-files")
+let g:vsf_file = tempname()
 let g:vsf_command = get(g:, 'vsf_command', "git ls-files --others --exclude-standard --cached")
 
 augroup vsf
