@@ -34,7 +34,7 @@ fun! SimpleMru()
     0put =v:oldfiles
     silent exec '%s?' . getcwd() . '/??e'
     silent exec '%g/^[./]/d'
-    call s:BufferSettings()
+    call BufferSettings()
     setl bufhidden=delete
     0
 endfunc
