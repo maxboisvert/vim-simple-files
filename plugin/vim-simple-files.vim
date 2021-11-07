@@ -33,7 +33,7 @@ fun! SimpleMru()
     enew
     0put =v:oldfiles
     silent exec '%s?' . getcwd() . '/??e'
-    silent exec '%g/^[./]/d'
+    silent exec '%g/^[./]/d _'
     call BufferSettings()
     setl bufhidden=delete
     0
